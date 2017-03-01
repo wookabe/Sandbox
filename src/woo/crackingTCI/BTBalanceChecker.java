@@ -21,6 +21,7 @@ import java.util.Map;
 // Optimization: not to call height each time (perhaps use -1 as error)
 // Optimization: Node can hold height
 
+// with buffer
 public class BTBalanceChecker {
 
     public boolean isBalanced(Node head) {
@@ -71,7 +72,7 @@ public class BTBalanceChecker {
     }
 }
 
-// first solution
+// first, straightforward solution (not optimal)
 //public class BTBalanceChecker {
 //
 //    public boolean isBalanced(Node head) {
@@ -88,7 +89,99 @@ public class BTBalanceChecker {
 //        if (head == null)
 //            return 0;
 //
-//        return height(head.left) + height(head.right) + 1;
+//        return Math.max(height(head.left),height(head.right)) + 1;
+//    }
+//
+//    public static class Node {
+//        Node left, right; // can be without data
+//    }
+//}
+
+
+// with calculating starting from the bottom
+//public class BTBalanceChecker {
+//    public boolean isBalanced(Node head) {
+//        return isBalancedR(head);
+//    }
+//
+//    private boolean isBalancedR(Node head) {
+//        if (head == null)
+//            return true;
+//
+//        if (!isBalancedR(head.left) || !isBalancedR(head.right))
+//            return false;
+//
+//        if (Math.abs(height(head.left) - height(head.right)) > 1)
+//            return false;
+//        else
+//            return true;
+//    }
+//
+//    private int height(Node head) {
+//        if (head == null)
+//            return 0;
+//
+//        return Math.max(height(head.left),height(head.right)) + 1;
+//    }
+//
+//    public static class Node {
+//        Node left, right; // can be without data
+//    }
+//}
+
+
+// with special value -1
+//public class BTBalanceChecker {
+//
+//    public static final int NOT_BALANCED = -1;
+//    private long count;
+//
+//    public boolean isBalanced(Node head) {
+//        return height(head) != NOT_BALANCED;
+//    }
+//
+//    private int height(Node head) {
+//        System.out.println("Count height: " + ++count);
+//        if (head == null)
+//            return 0;
+//
+//        int leftHeight, rightHeight;
+//        if ((leftHeight = height(head.left)) == NOT_BALANCED
+//                || (rightHeight = height(head.right)) == NOT_BALANCED
+//                || Math.abs(leftHeight - rightHeight) > 1)
+//            return NOT_BALANCED;
+//        else
+//            return Math.max(leftHeight, rightHeight) + 1;
+//    }
+//
+//    public static class Node {
+//        Node left, right; // can be without data
+//    }
+//}
+
+
+// with Exception
+//public class BTBalanceChecker {
+//    public boolean isBalanced(Node head) {
+//        try {
+//            calculateHeightIfBalanced(head);
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private int calculateHeightIfBalanced(Node head) throws Exception {
+//        if (head == null)
+//            return 0;
+//
+//        int leftHeight = calculateHeightIfBalanced(head.left);
+//        int rightHeight = calculateHeightIfBalanced(head.right);
+//
+//        if (Math.abs(leftHeight - rightHeight) > 1)
+//            throw new Exception();
+//
+//        return Math.max(leftHeight, rightHeight) + 1;
 //    }
 //
 //    public static class Node {
