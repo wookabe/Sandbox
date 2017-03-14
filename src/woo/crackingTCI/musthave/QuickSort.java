@@ -24,7 +24,7 @@ public class QuickSort<T extends Comparable<T>> {
     private int partition(T[] array, int left, int right) {
         T pivot = array[(left + right) / 2];
         while (left <= right) {
-            while(array[left].compareTo(pivot) < 0) {
+            while (array[left].compareTo(pivot) < 0) {
                 left++;
             }
             while (array[right].compareTo(pivot) > 0) {
