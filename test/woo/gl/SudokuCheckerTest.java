@@ -1,4 +1,4 @@
-package woo.google;
+package woo.gl;
 
 import org.junit.Before;
 import org.junit.Test;

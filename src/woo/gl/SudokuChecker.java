@@ -1,4 +1,4 @@
-package woo.google;
+package woo.gl;
 
 /**
  * Created by Łukasz on 2017-02-06.
