@@ -11,17 +11,6 @@ import static org.junit.Assert.assertThat;
  */
 public class AVLTreeTest {
 
-    private Node insert(int... vals) {
-        Node root = null;
-        for (int val : vals)
-            root = AVLTree.insert(root, val);
-        return root;
-    }
-
-    private void assertVal(Node root, int val) {
-        assertThat(root.val, is(val));
-    }
-
     @Test
     public void testInsert1() throws Exception {
         Node root = insert(3);
@@ -65,5 +54,31 @@ public class AVLTreeTest {
         assertVal(root.right, 5);
         assertVal(root.right.left, 4);
         assertVal(root.right.right, 6);
+    }
+
+    @Test
+    public void testInsertHeights() throws Exception {
+        Node root = insert(3, 2, 4, 5, 6);
+
+        assertHeight(root, 2);
+        assertHeight(root.left, 0);
+        assertHeight(root.right, 1);
+        assertHeight(root.right.left, 0);
+        assertHeight(root.right.right, 0);
+    }
+
+    private Node insert(int... vals) {
+        Node root = null;
+        for (int val : vals)
+            root = AVLTree.insert(root, val);
+        return root;
+    }
+
+    private void assertVal(Node root, int val) {
+        assertThat(root.val, is(val));
+    }
+
+    private void assertHeight(Node root, int height) {
+        assertThat(root.height, is(height));
     }
 }

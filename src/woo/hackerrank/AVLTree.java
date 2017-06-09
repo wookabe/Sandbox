@@ -1,18 +1,24 @@
 package woo.hackerrank;
 
+import static woo.hackerrank.AVLTree.Node.calculateHeight;
+
 /**
  * Created by Łukasz on 2017-05-19.
  */
 public class AVLTree {
-    static Node insert(Node root, int val) {
+    public static Node insert(Node root, int val) {
         if (root == null)
-            root = new Node(val);
-        else if (val < root.val)
+            root = insertNew(val);
+        if (val < root.val)
             root = insertToLeft(root, val);
-        else if (val > root.val)
+        if (val > root.val)
             root = insertToRight(root, val);
-        updateHeight(root);
+        root.updateHeight();
         return root;
+    }
+
+    private static Node insertNew(int val) {
+        return new Node(val);
     }
 
     private static Node insertToLeft(Node root, int val) {
@@ -30,23 +36,7 @@ public class AVLTree {
     }
 
     private static boolean isUnbalanced(Node root) {
-        return Math.abs(calculateHeight(root.left) - calculateHeight(root.right)) == 2;
-    }
-
-    private static Node rotateWithLeft(Node root) {
-        Node newRoot = root.left;
-        root.left = newRoot.right;
-        newRoot.right = root;
-        updateHeight(root, newRoot);
-        return newRoot;
-    }
-
-    private static Node rotateWithRight(Node root) {
-        Node newRoot = root.right;
-        root.right = newRoot.left;
-        newRoot.left = root;
-        updateHeight(root, newRoot);
-        return newRoot;
+        return Math.abs(calculateHeight(root.left) - calculateHeight(root.right)) > 1;
     }
 
     private static Node rotateWithRightThenLeft(Node node) {
@@ -59,23 +49,38 @@ public class AVLTree {
         return rotateWithRight(node);
     }
 
-    private static void updateHeight(Node... nodes) {
-        for (Node node : nodes)
-            node.ht = calculateHeight(node);
+    private static Node rotateWithLeft(Node root) {
+        Node newRoot = root.left;
+        root.left = newRoot.right;
+        newRoot.right = root;
+        root.updateHeight();
+        return newRoot;
     }
 
-    private static int calculateHeight(Node node) {
-        return node == null ? -1 : Math.max(calculateHeight(node.left), calculateHeight(node.right)) + 1;
+    private static Node rotateWithRight(Node root) {
+        Node newRoot = root.right;
+        root.right = newRoot.left;
+        newRoot.left = root;
+        root.updateHeight();
+        return newRoot;
     }
 
     static class Node {
-        int val;   //Value
-        int ht;      //Height
-        Node left;   //Left child
-        Node right;   //Right child
+        final int val;
+        int height;
+        Node left;
+        Node right;
 
         public Node(int val) {
             this.val = val;
+        }
+
+        static int calculateHeight(Node node) {
+            return node == null ? -1 : Math.max(calculateHeight(node.left), calculateHeight(node.right)) + 1;
+        }
+
+        private void updateHeight() {
+            height = calculateHeight(this);
         }
     }
 }
